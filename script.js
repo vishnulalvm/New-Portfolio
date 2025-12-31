@@ -105,15 +105,122 @@ document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
   });
 });
 
-// Navbar background on scroll
+// Navbar frosted glass effect on scroll
 window.addEventListener("scroll", function () {
   const nav = document.querySelector("nav");
   if (window.scrollY > 50) {
-    nav.style.background = "rgba(255,255,255,0.95)";
-    nav.style.boxShadow = "0 2px 10px rgba(0,0,0,0.1)";
+    nav.classList.add("scrolled");
   } else {
-    nav.style.background = "rgba(255,255,255,0.8)";
-    nav.style.boxShadow = "none";
+    nav.classList.remove("scrolled");
   }
 });
+
+// Screenshot Lightbox (Mobile Only)
+document.addEventListener('DOMContentLoaded', () => {
+  const modal = document.getElementById('screenshot-modal');
+  const modalImage = modal.querySelector('.modal-image');
+  const modalClose = modal.querySelector('.modal-close');
+  const modalCounter = modal.querySelector('.modal-counter');
+
+  let currentImages = [];
+  let currentIndex = 0;
+  let touchStartX = 0;
+  let touchEndX = 0;
+
+  // Check if mobile
+  function isMobile() {
+    return window.innerWidth <= 768;
+  }
+
+  // Open lightbox
+  function openLightbox(imageSrc, index, imagesArray) {
+    if (!isMobile()) return; // Only on mobile
+
+    currentImages = imagesArray;
+    currentIndex = index;
+
+    modalImage.src = imageSrc;
+    modalCounter.textContent = `${index + 1} / ${imagesArray.length}`;
+
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden'; // Prevent background scroll
+  }
+
+  // Close lightbox
+  function closeLightbox() {
+    modal.classList.remove('active');
+    document.body.style.overflow = ''; // Restore scroll
+  }
+
+  // Navigate to next/previous image
+  function navigateImage(direction) {
+    currentIndex += direction;
+
+    // Loop around
+    if (currentIndex < 0) currentIndex = currentImages.length - 1;
+    if (currentIndex >= currentImages.length) currentIndex = 0;
+
+    modalImage.src = currentImages[currentIndex];
+    modalCounter.textContent = `${currentIndex + 1} / ${currentImages.length}`;
+  }
+
+  // Add click listeners to all screenshots
+  document.querySelectorAll('.project-showcase').forEach(showcase => {
+    const screenshots = Array.from(showcase.querySelectorAll('.screenshot img'));
+
+    screenshots.forEach((img, index) => {
+      img.addEventListener('click', () => {
+        if (isMobile()) {
+          const imageSrcs = screenshots.map(s => s.src);
+          openLightbox(img.src, index, imageSrcs);
+        }
+      });
+    });
+  });
+
+  // Close button
+  modalClose.addEventListener('click', closeLightbox);
+
+  // Click backdrop to close
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      closeLightbox();
+    }
+  });
+
+  // Touch swipe navigation
+  modal.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+  });
+
+  modal.addEventListener('touchend', (e) => {
+    touchEndX = e.changedTouches[0].screenX;
+    handleSwipe();
+  });
+
+  function handleSwipe() {
+    const swipeThreshold = 50;
+    const diff = touchStartX - touchEndX;
+
+    if (Math.abs(diff) > swipeThreshold) {
+      if (diff > 0) {
+        // Swiped left - next image
+        navigateImage(1);
+      } else {
+        // Swiped right - previous image
+        navigateImage(-1);
+      }
+    }
+  }
+
+  // Keyboard navigation (ESC to close, arrows to navigate)
+  document.addEventListener('keydown', (e) => {
+    if (!modal.classList.contains('active')) return;
+
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') navigateImage(-1);
+    if (e.key === 'ArrowRight') navigateImage(1);
+  });
+});
+
 
