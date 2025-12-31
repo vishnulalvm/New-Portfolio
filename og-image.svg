@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:0.1" />
+      <stop offset="100%" style="stop-color:#8b5cf6;stop-opacity:0.1" />
+    </linearGradient>
+    <linearGradient id="vGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#7c3aed;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#8b5cf6;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="#ffffff"/>
+  <rect width="1200" height="630" fill="url(#bgGrad)"/>
+
+  <!-- Large V Icon -->
+  <g transform="translate(100, 100)">
+    <rect width="200" height="200" rx="50" fill="#ffffff" opacity="0.9"/>
+    <path d="M 50 40 L 100 150 L 150 40 L 136 40 L 100 120 L 64 40 Z" fill="url(#vGrad)" stroke="url(#vGrad)" stroke-width="3"/>
+  </g>
+
+  <!-- Text Content -->
+  <text x="350" y="200" font-family="'Outfit', sans-serif" font-size="60" font-weight="700" fill="#1a1a1a">Vishnulal V M</text>
+  <text x="350" y="270" font-family="'Outfit', sans-serif" font-size="36" font-weight="400" fill="#6b7280">Flutter Developer</text>
+  <text x="350" y="340" font-family="'Outfit', sans-serif" font-size="28" font-weight="400" fill="#6b7280">Building scalable mobile applications</text>
+  <text x="350" y="395" font-family="'Outfit', sans-serif" font-size="28" font-weight="400" fill="#6b7280">from concept to production</text>
+
+  <!-- Decorative Elements -->
+  <circle cx="1050" cy="150" r="80" fill="url(#vGrad)" opacity="0.1"/>
+  <circle cx="950" cy="480" r="60" fill="url(#vGrad)" opacity="0.15"/>
+</svg>
